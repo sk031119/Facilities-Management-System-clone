@@ -1,0 +1,987 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "leaflet/dist/leaflet.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.809 0.105 251.813);
+  --chart-2: oklch(0.623 0.214 259.815);
+  --chart-3: oklch(0.546 0.245 262.881);
+  --chart-4: oklch(0.488 0.243 264.376);
+  --chart-5: oklch(0.424 0.199 265.638);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.809 0.105 251.813);
+  --chart-2: oklch(0.623 0.214 259.815);
+  --chart-3: oklch(0.546 0.245 262.881);
+  --chart-4: oklch(0.488 0.243 264.376);
+  --chart-5: oklch(0.424 0.199 265.638);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply text-foreground;
+    font-family: var(--font-body), sans-serif;
+    min-height: 100vh;
+    overflow-x: clip;
+
+    /* Light mode: soft white with faint blue & yellow ambient glows fixed in place */
+    background-color: #eef2f7;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 15% 10%, rgba(0, 122, 204, 0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 50% at 85% 85%, rgba(215, 183, 66, 0.05) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 40% at 50% 50%, rgba(0, 90, 158, 0.03) 0%, transparent 60%);
+    background-attachment: fixed;
+  }
+
+  /* Dark mode body background */
+  .dark body {
+    --brand-primary: #4ea6dd !important;
+    --brand-primary-dark: #77c0ed !important;
+    --brand-secondary: #d8aa2d !important;
+    --brand-secondary-dark: #f0c860 !important;
+    background-color: #080c14;
+    background-image:
+      radial-gradient(ellipse 70% 55% at 10% 15%, rgba(0, 122, 204, 0.10) 0%, transparent 65%),
+      radial-gradient(ellipse 55% 45% at 90% 80%, rgba(215, 183, 66, 0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 45% 35% at 55% 45%, rgba(56, 189, 248, 0.05) 0%, transparent 55%);
+    background-attachment: fixed;
+  }
+
+  html {
+    @apply font-sans;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading), sans-serif;
+  }
+}
+
+/* ─── FASS Polytechnic Design System ─────────────────────────────────── */
+:root {
+  --fass-blue: var(--brand-primary, #007ACC);
+  --fass-blue-dark: var(--brand-primary-dark, #005B99);
+  --fass-yellow: var(--brand-secondary, #D7B742);
+  --fass-yellow-dark: var(--brand-secondary-dark, #AA8D1D);
+  --fass-accent-soft: color-mix(in srgb, var(--fass-blue) 10%, white);
+  --fass-accent-border: color-mix(in srgb, var(--fass-blue) 38%, var(--fass-border));
+  --fass-text: #0d1b2a;
+  --fass-text-muted: #5f6c7b;
+  --fass-bg-white: #ffffff;
+  --fass-bg-light: #edf4fb;
+  --fass-border: #d8e0ea;
+
+  /* Status colours */
+  --status-available: #22c55e;
+  --status-available-bg: #f0fdf4;
+  --status-occupied: #ef4444;
+  --status-occupied-bg: #fef2f2;
+  --status-maintenance: #f59e0b;
+  --status-maintenance-bg: #fffbeb;
+
+  /* Typography */
+  --font-heading: 'Avenir Next', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Avenir Next', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* The iconic FASS yellow dot on h1 */
+.fass-heading::after {
+  content: '.';
+  color: var(--fass-yellow);
+}
+
+/* ─── Header Background (handles dark mode properly) ───────────────────── */
+.header-bg {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+}
+
+.dark .header-bg {
+  background: rgba(14, 16, 22, 0.94);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+}
+
+.header-bg-scrolled {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(20px) saturate(200%);
+  -webkit-backdrop-filter: blur(20px) saturate(200%);
+  box-shadow: 0 1px 24px rgba(0, 0, 0, 0.07);
+}
+
+.dark .header-bg-scrolled {
+  background: rgba(10, 12, 18, 0.88);
+  backdrop-filter: blur(20px) saturate(200%);
+  -webkit-backdrop-filter: blur(20px) saturate(200%);
+  box-shadow: 0 1px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* ─── Dark Mode FASS Variable Overrides ───────────────────────────────── */
+/* By redefining the CSS variables here, every component that references     */
+/* --fass-* variables automatically gets dark mode without touching them.   */
+.dark {
+  /* ── FASS brand ───────────────────────────── */
+  --fass-blue: color-mix(in srgb, var(--brand-primary, #007ACC) 72%, white);
+  --fass-blue-dark: color-mix(in srgb, var(--brand-primary-dark, #005B99) 78%, white);
+  --fass-yellow: color-mix(in srgb, var(--brand-secondary, #D7B742) 82%, white);
+  --fass-yellow-dark: color-mix(in srgb, var(--brand-secondary-dark, #AA8D1D) 84%, white);
+  --fass-accent-soft: color-mix(in srgb, var(--fass-blue) 16%, var(--fass-bg-white));
+  --fass-accent-border: color-mix(in srgb, var(--fass-blue) 45%, var(--fass-border));
+  --fass-text: #ecf4ff;
+  --fass-text-muted: #9eb2c8;
+  --fass-bg-white: #0f1a27;
+  --fass-bg-light: #07111c;
+  --fass-border: rgba(255, 255, 255, 0.1);
+
+  --status-available-bg: #052e16;
+  --status-occupied-bg: #2d0a0a;
+  --status-maintenance-bg: #2d1b00;
+
+  /* ── Tailwind v4 @theme inline token overrides ──────────────────────────
+     @theme inline resolves var() chains at compile time, so changing
+     --popover / --background alone is not enough — the --color-* tokens
+     that Tailwind actually uses in utility classes must be set directly.   */
+  --color-background: #080c14;
+  --color-foreground: oklch(0.95 0 0);
+  --color-card: #0f1a27;
+  --color-card-foreground: oklch(0.95 0 0);
+  --color-popover: #122132;
+  --color-popover-foreground: #ecf4ff;
+  --color-muted: #132232;
+  --color-muted-foreground: #9eb2c8;
+  --color-accent: #132232;
+  --color-accent-foreground: oklch(0.95 0 0);
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-input: rgba(255, 255, 255, 0.08);
+  --color-ring: color-mix(in srgb, var(--brand-primary, #007ACC) 72%, white);
+}
+
+/* bg-white in dark mode should use the dark card background */
+.dark .bg-white,
+.dark .bg-white\/90,
+.dark .bg-white\/85 {
+  background-color: var(--fass-bg-white);
+}
+
+/* Glassmorphism in dark mode */
+.dark .glass {
+  background: rgba(18, 20, 26, 0.88);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.dark .glass-subtle {
+  background: rgba(18, 20, 26, 0.6);
+}
+
+/* Admin sidebar in dark mode */
+.dark .sidebar-item-active {
+  background: linear-gradient(135deg, var(--fass-blue) 0%, var(--fass-blue-dark) 100%);
+}
+
+/* ─── Smooth scroll ─────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: auto;
+}
+
+/* ─── Keyframe Animations ───────────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-32px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(32px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.93);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px) scale(1);
+  }
+
+  50% {
+    transform: translateY(-10px) scale(1.04);
+  }
+}
+
+@keyframes float-slow {
+
+  0%,
+  100% {
+    transform: translateY(0px) translateX(0px);
+  }
+
+  33% {
+    transform: translateY(-14px) translateX(8px);
+  }
+
+  66% {
+    transform: translateY(-6px) translateX(-6px);
+  }
+}
+
+@keyframes float-reverse {
+
+  0%,
+  100% {
+    transform: translateY(0px) scale(1);
+  }
+
+  50% {
+    transform: translateY(10px) scale(0.97);
+  }
+}
+
+@keyframes orb-drift {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.6;
+  }
+
+  25% {
+    transform: translate(20px, -30px) scale(1.08);
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: translate(-10px, -50px) scale(0.95);
+    opacity: 0.5;
+  }
+
+  75% {
+    transform: translate(-30px, -20px) scale(1.05);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.6;
+  }
+}
+
+@keyframes orb-drift-2 {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.5;
+  }
+
+  33% {
+    transform: translate(-25px, 15px) scale(1.1);
+    opacity: 0.7;
+  }
+
+  66% {
+    transform: translate(15px, 30px) scale(0.9);
+    opacity: 0.4;
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.5;
+  }
+}
+
+@keyframes pulse-status {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: scale(1.15);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes shimmer-slide {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+    max-height: 0;
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 300px;
+  }
+}
+
+/* ─── Animation Utility Classes ─────────────────────────────────────────── */
+.animate-fade-in-up {
+  animation: fadeInUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease both;
+}
+
+.animate-slide-left {
+  animation: slideInLeft 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-slide-right {
+  animation: slideInRight 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.animate-float {
+  animation: float 3.5s ease-in-out infinite;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Stagger delays */
+.delay-0 {
+  animation-delay: 0ms;
+}
+
+.delay-75 {
+  animation-delay: 75ms;
+}
+
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-150 {
+  animation-delay: 150ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-250 {
+  animation-delay: 250ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.delay-350 {
+  animation-delay: 350ms;
+}
+
+.delay-400 {
+  animation-delay: 400ms;
+}
+
+.delay-500 {
+  animation-delay: 500ms;
+}
+
+.delay-600 {
+  animation-delay: 600ms;
+}
+
+/* ─── CSS Scroll-Driven Reveal ───────────────────────────────────────────── */
+@supports (animation-timeline: view()) {
+  .scroll-reveal {
+    animation: fadeInUp linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 22%;
+  }
+
+  .scroll-reveal-left {
+    animation: slideInLeft linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 22%;
+  }
+
+  .scroll-reveal-right {
+    animation: slideInRight linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 22%;
+  }
+
+  .scroll-reveal-scale {
+    animation: scaleIn linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 18%;
+  }
+}
+
+/* ─── 3D Card Effects ───────────────────────────────────────────────────── */
+.perspective-container {
+  perspective: 900px;
+}
+
+.card-3d {
+  transform-style: preserve-3d;
+  transition:
+    transform 0.5s cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: transform;
+  backface-visibility: hidden;
+  position: relative;
+}
+
+/* The moving shine pseudo-element */
+.card-3d::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.08) 40%,
+      rgba(255, 255, 255, 0.22) 50%,
+      rgba(255, 255, 255, 0.08) 60%,
+      rgba(255, 255, 255, 0) 100%);
+  background-size: 250% 250%;
+  background-position: 0% 0%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease, background-position 0.6s ease;
+}
+
+.card-3d:hover::before {
+  opacity: 1;
+  background-position: 100% 100%;
+}
+
+.card-3d:hover {
+  transform: perspective(900px) rotateX(-6deg) rotateY(4deg) translateY(-10px) scale(1.025);
+  box-shadow:
+    0 30px 60px -12px rgba(0, 0, 0, 0.18),
+    0 12px 24px -6px rgba(0, 0, 0, 0.10),
+    0 4px 8px -2px rgba(0, 0, 0, 0.06),
+    0 0 0 1px rgba(0, 122, 204, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.dark .card-3d:hover {
+  box-shadow:
+    0 30px 60px -12px rgba(0, 0, 0, 0.55),
+    0 12px 24px -6px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(75, 180, 232, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ─── Glassmorphism ─────────────────────────────────────────────────────── */
+.glass {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.glass-subtle {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ─── Gradient Utilities ─────────────────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, var(--fass-blue) 0%, #38bdf8 60%, var(--fass-yellow) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-gradient {
+  background: linear-gradient(140deg,
+      #001020 0%,
+      #001a36 20%,
+      #00325e 45%,
+      #004f8c 65%,
+      #007ACC 85%,
+      #005a9e 100%);
+  background-size: 250% 250%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+.animated-gradient {
+  background: linear-gradient(270deg, var(--fass-blue), #0ea5e9, var(--fass-yellow), var(--fass-blue));
+  background-size: 300% 300%;
+  animation: gradient-shift 6s ease infinite;
+}
+
+/* Grid dot pattern for hero sections */
+.dot-pattern {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Line grid pattern */
+.grid-pattern {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* ─── Nav Link Underline Animation ──────────────────────────────────────── */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--fass-blue);
+  transition: width 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  border-radius: 2px;
+}
+
+.nav-link:hover::after,
+.nav-link-active::after {
+  width: 100%;
+}
+
+.nav-link-active::after {
+  width: 100%;
+}
+
+/* ─── Glow Effects ──────────────────────────────────────────────────────── */
+.glow-blue {
+  box-shadow: 0 0 24px rgba(0, 122, 204, 0.35), 0 0 48px rgba(0, 122, 204, 0.12);
+}
+
+.glow-yellow {
+  box-shadow: 0 0 24px rgba(215, 183, 66, 0.4), 0 0 48px rgba(215, 183, 66, 0.15);
+}
+
+/* ─── Shimmer Skeleton ──────────────────────────────────────────────────── */
+.shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer-slide 1.6s infinite;
+}
+
+/* ─── Status Badge Pulse ────────────────────────────────────────────────── */
+.status-pulse {
+  animation: pulse-status 2.2s ease-in-out infinite;
+}
+
+/* ─── Dark Mode: Portalled Component Overrides ──────────────────────────── */
+/* Base UI renders Select, Dialog, etc. into portals at document.body.      */
+/* These rules ensure correct colours regardless of CSS variable resolution. */
+
+/* Select dropdown popup */
+.dark [data-slot="select-content"] {
+  background-color: #1a2236;
+  color: oklch(0.93 0 0);
+  border: 1px solid oklch(1 0 0 / 10%);
+}
+
+/* Select items (unselected) */
+.dark [data-slot="select-item"] {
+  color: oklch(0.88 0 0);
+}
+
+/* Select item hover / keyboard focus */
+.dark [data-slot="select-item"]:focus,
+.dark [data-slot="select-item"][data-highlighted] {
+  background-color: rgba(77, 182, 232, 0.15);
+  color: #4db6e8;
+}
+
+/* Select scroll arrows */
+.dark [data-slot="select-scroll-up-button"],
+.dark [data-slot="select-scroll-down-button"] {
+  background-color: #1a2236;
+  color: oklch(0.62 0 0);
+}
+
+/* Dialog / modal popup */
+.dark [data-slot="dialog-content"] {
+  background-color: #111827;
+  color: oklch(0.95 0 0);
+  border-color: oklch(1 0 0 / 9%);
+}
+
+/* Dialog footer bar */
+.dark [data-slot="dialog-footer"] {
+  background-color: #0f1724;
+  border-top-color: oklch(1 0 0 / 9%);
+}
+
+/* Inputs inside portalled modals */
+.dark [data-slot="dialog-content"] input,
+.dark [data-slot="dialog-content"] textarea,
+.dark [data-slot="dialog-content"] select {
+  background-color: oklch(1 0 0 / 6%);
+  color: oklch(0.95 0 0);
+  border-color: oklch(1 0 0 / 12%);
+}
+
+.enterprise-native-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  box-shadow: none;
+  background-image: none;
+}
+
+.enterprise-native-select:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--fass-blue) 14%, transparent);
+  border-color: color-mix(in srgb, var(--fass-blue) 45%, var(--fass-border));
+}
+
+.enterprise-native-select option {
+  color: var(--fass-text);
+  background: var(--fass-bg-white);
+}
+
+.dark .enterprise-native-select {
+  background-color: var(--fass-bg-white);
+  color: var(--fass-text);
+}
+
+.leaflet-map-shell {
+  border: 1px solid var(--fass-border);
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(248, 251, 255, 0.96)),
+    radial-gradient(circle at top left, rgba(0, 122, 204, 0.12), transparent 48%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.leaflet-map-shell .leaflet-container {
+  height: 100%;
+  width: 100%;
+  background: transparent;
+}
+
+.leaflet-map-shell .leaflet-control-zoom a {
+  color: var(--fass-text);
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom-color: var(--fass-border);
+}
+
+.leaflet-map-shell .leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--fass-text-muted);
+}
+
+.leaflet-map-shell .leaflet-tooltip {
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12);
+  color: #0f172a;
+}
+
+.leaflet-room-label {
+  background: transparent;
+  border: 0;
+}
+
+.leaflet-room-label span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  color: #0f172a;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 42px;
+  padding: 4px 8px;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+}
+
+.dark .leaflet-map-shell .leaflet-control-zoom a {
+  color: var(--fass-text);
+  background: rgba(15, 26, 39, 0.96);
+  border-bottom-color: var(--fass-border);
+}
+
+.dark .leaflet-map-shell {
+  background:
+    linear-gradient(180deg, rgba(11, 18, 29, 0.98), rgba(8, 12, 20, 0.98)),
+    radial-gradient(circle at top left, rgba(77, 182, 232, 0.12), transparent 52%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.dark .leaflet-map-shell .leaflet-control-attribution {
+  background: rgba(15, 26, 39, 0.9);
+  color: var(--fass-text-muted);
+}
+
+.dark .leaflet-map-shell .leaflet-tooltip {
+  background: rgba(15, 26, 39, 0.96);
+  color: var(--fass-text);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 16px 28px rgba(0, 0, 0, 0.34);
+}
+
+.dark .leaflet-room-label span {
+  background: rgba(15, 26, 39, 0.96);
+  border-color: rgba(255, 255, 255, 0.08);
+  color: var(--fass-text);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.38);
+}
+
+.dark [data-slot="dialog-content"] input::placeholder,
+.dark [data-slot="dialog-content"] textarea::placeholder {
+  color: rgba(206, 220, 238, 0.46);
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: rgba(206, 220, 238, 0.46);
+}
+
+.dark input,
+.dark textarea,
+.dark select {
+  color-scheme: dark;
+}
+
+/* Labels inside modals */
+.dark [data-slot="dialog-content"] label {
+  color: oklch(0.88 0 0);
+}
+
+/* ─── Interactive Button Shimmer ────────────────────────────────────────── */
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn-shimmer:hover::after {
+  left: 150%;
+}
+
+/* ─── Sidebar Active Item ───────────────────────────────────────────────── */
+.sidebar-item-active {
+  background: linear-gradient(135deg, var(--fass-blue) 0%, #0288d1 100%);
+  box-shadow: 0 2px 12px rgba(0, 122, 204, 0.35);
+}

@@ -1,0 +1,50 @@
+{
+  "AN Building": [
+    "AN101", "AN102", "AN103", "AN104", "AN105 - Court of Justice", "AN112 - Forensic Studio", "AN113 - Crime Simulation"
+  ],
+  "ART Building": [
+    "ART104 - Art Studio Lab", "ART105 - Art Studio Lab", "ART201 - Wet Studio Lab", "ART203 - Photography & Video Studio Lab"
+  ],
+  "B Building": [
+    "B109 - RAPP Lab", "B110", "B111", "B112", "B115", "B116", "B117", "B301 - Computer Lab", "B302", "B303", "B304", "B307", "B309 - Computer Lab"
+  ],
+  "BIR Building": [
+    "BIR107 - Studio Theatre", "BIR108 - Comedy Cabaret", "BIR109 - Studio Lab", "BIR110 - AFTV Film Studio", "BIR111C - Media Studio Lab", "BIR111E - Media Studio Lab", "BIR112 - Wardrobe Shop", "BIR114 - Carpentry Shop", "BIR115 - Paint Shop", "BIR116 - Studio Lab", "BIR117 - Prop Shop", "BIR118 - Green Room Lab", "BIR122 - Studio Lab", "BIR125 - Dance Studio", "BIR127 - Studio Lab", "BIR207 - Studio Lab", "BIR208 - Sound Lab", "BIR209 - Boardroom", "BIR210 - Rehearsal Space", "BIR212 - Rehearsal Space"
+  ],
+  "C Building": [
+    "C108", "C109", "C111", "C112", "C200 - EAP Lab", "CB104 - SIM Lab"
+  ],
+  "D Building": [
+    "D108", "D109", "D111 - EAP Lab", "D112 - Centre for Teaching and Learning Instructional Support Studio", "D200", "D204", "DB104 - EAP Lab", "DB106"
+  ],
+  "E Building": [
+    "E108", "E109", "E111", "E112 - EAP Lab", "E200 - Video", "E204", "E206"
+  ],
+  "F Building": [
+    "F103 - OLC Lab", "F105", "F107 - Computer Lab", "F202 - Mac Computer Lab", "F203", "F205", "F207 - Mac Computer Lab", "F212", "F214", "F216 - Computer Lab", "FB105 - Mac Computer Lab", "FB114 - Mac Computer Lab"
+  ],
+  "FAS Building": [
+    "FAS102"
+  ],
+  "G Building": [
+    "G105 - Focus Group Room", "G201 - Production Lab", "G205 - Focus Group Control Room"
+  ],
+  "H Building": [
+    "H217", "H304", "H305", "H316", "H318", "H321", "H324", "H327", "H329", "H330", "H332", "H334", "H341 - Fashion Photo Studio", "H344 - Fashion Pop-Up Shop", "H344 - Third Floor Fashion District and The Pop-up Shop", "H406", "H407", "H414", "H415", "H416", "H419", "H420", "H422", "H424", "H425", "H426", "H427", "H440"
+  ],
+  "I Building": [
+    "I107", "I108", "I202", "I204", "I207"
+  ],
+  "J Building": [
+    "J201", "J203", "J206"
+  ],
+  "L Building": [
+    "L1004", "L1005", "L1006", "L1007", "L1009", "L1010", "L1011", "L1012", "L3001", "L3003 - Mac Computer Lab", "L3004", "L3007", "L3010", "L3011", "L3012 - Trading Floor", "L3013", "L3014 - Computer Lab", "L3015", "L3016", "L4001 - NBC Universal Production Suites", "L4002 - NBC Universal Production Suites", "L4005 - Newsroom", "L4008 - Mac Computer Lab"
+  ],
+  "MED Building": [
+    "MED202 - SCS Play Lab", "MED202A - Play Lab", "MED202B - Play Lab", "MED202C - Play Lab", "MED202D - Play Lab", "MED208 - Event Management Lab", "MED209", "MED210 - Computer Lab", "MED305", "MED306", "MED307", "MED308", "MED309"
+  ],
+  "R Building": [
+    "R146", "R148 - Fitness Testing", "R150"
+  ]
+}

@@ -1,0 +1,277 @@
+// Facilities Module — Prisma Schema
+// College Scheduling System — FASS Polytechnic
+// Run: npx prisma generate
+// Migrate: npx prisma migrate dev --name init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  schemas  = ["facilities_schema"]
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum RoomStatus {
+  AVAILABLE
+  OCCUPIED
+  MAINTENANCE
+
+  @@schema("facilities_schema")
+}
+
+enum UserRole {
+  ADMIN
+  STAFF
+  PUBLIC
+
+  @@schema("facilities_schema")
+}
+
+enum RoomType {
+  CLASSROOM
+  LAB
+  LECTURE_HALL
+  OFFICE
+  COMMON_AREA
+  GYM
+  OTHER
+
+  @@schema("facilities_schema")
+}
+
+enum MaintenancePriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+
+  @@schema("facilities_schema")
+}
+
+enum MaintenanceStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+
+  @@schema("facilities_schema")
+}
+
+// ─── Better-Auth Required Tables ─────────────────────────────────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  image         String?
+  role          UserRole  @default(PUBLIC)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  sessions        Session[]
+  accounts        Account[]
+  maintenanceLogs MaintenanceLog[] @relation("CreatedBy")
+
+  @@map("users")
+  @@schema("facilities_schema")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+  @@schema("facilities_schema")
+}
+
+model Account {
+  id           String    @id @default(cuid())
+  userId       String
+  accountId    String
+  providerId   String
+  accessToken  String?
+  refreshToken String?
+  idToken      String?
+  expiresAt    DateTime?
+  password     String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([providerId, accountId])
+  @@index([userId])
+  @@map("accounts")
+  @@schema("facilities_schema")
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([identifier, value])
+  @@map("verifications")
+  @@schema("facilities_schema")
+}
+
+// ─── Facilities Domain ────────────────────────────────────────────────────────
+
+model Campus {
+  id               String   @id @default(cuid())
+  name             String
+  address          String
+  timezone         String   @default("America/Toronto")
+  mapLatitude      Float?
+  mapLongitude     Float?
+  mapZoom          Int?
+  mapLocationLabel String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  buildings Building[]
+
+  @@map("campuses")
+  @@schema("facilities_schema")
+}
+
+model Building {
+  id           String   @id @default(cuid())
+  campusId     String
+  name         String
+  buildingCode String   @unique
+  mapLatitude  Float?
+  mapLongitude Float?
+  mapLabel     String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  campus Campus @relation(fields: [campusId], references: [id], onDelete: Cascade)
+  rooms  Room[]
+
+  @@index([campusId])
+  @@map("buildings")
+  @@schema("facilities_schema")
+}
+
+model Room {
+  id            String     @id @default(cuid())
+  buildingId    String
+  roomNumber    String
+  floor         Int
+  capacity      Int
+  roomType      RoomType   @default(CLASSROOM)
+  description   String?
+  currentStatus RoomStatus @default(AVAILABLE)
+  archivedAt    DateTime?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  building        Building            @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  statusHistory   RoomStatusHistory[]
+  maintenanceLogs MaintenanceLog[]
+  assets          Asset[]
+  roomTags        RoomTag[]
+
+  @@unique([buildingId, roomNumber])
+  @@index([buildingId])
+  @@index([currentStatus])
+  @@map("rooms")
+  @@schema("facilities_schema")
+}
+
+model RoomStatusHistory {
+  id        String     @id @default(cuid())
+  roomId    String
+  status    RoomStatus
+  changedAt DateTime   @default(now())
+  changedBy String?
+
+  room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@index([roomId])
+  @@index([changedAt])
+  @@map("room_status_history")
+  @@schema("facilities_schema")
+}
+
+model MaintenanceLog {
+  id                  String    @id @default(cuid())
+  roomId              String
+  createdById         String?
+  title               String    @default("Facility issue")
+  description         String
+  priority            MaintenancePriority @default(MEDIUM)
+  status              MaintenanceStatus   @default(OPEN)
+  estimatedCompletion DateTime?
+  isActive            Boolean   @default(true)
+  resolutionNotes     String?
+  resolvedAt          DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  room      Room  @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  createdBy User? @relation("CreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+
+  @@index([roomId])
+  @@index([isActive])
+  @@index([status])
+  @@map("maintenance_logs")
+  @@schema("facilities_schema")
+}
+
+model Asset {
+  id           String   @id @default(cuid())
+  roomId       String
+  itemName     String
+  quantity     Int      @default(1)
+  isFunctional Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@index([roomId])
+  @@map("assets")
+  @@schema("facilities_schema")
+}
+
+model Tag {
+  id        String   @id @default(cuid())
+  tagName   String   @unique
+  colorCode String   @default("#007ACC")
+  createdAt DateTime @default(now())
+
+  roomTags RoomTag[]
+
+  @@map("tags")
+  @@schema("facilities_schema")
+}
+
+model RoomTag {
+  roomId String
+  tagId  String
+
+  room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  tag  Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([roomId, tagId])
+  @@index([tagId])
+  @@map("room_tags")
+  @@schema("facilities_schema")
+}
